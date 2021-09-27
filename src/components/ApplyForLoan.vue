@@ -1,39 +1,126 @@
 <template>
-  <div class="mt-20">
-    <div class="grid grid-cols-1  sm:gap-0 sm:grid-cols-3 cursor-pointer ">
-      <div class="text-gray-600 font-semibold text-2xl   text-center mt-5 ">
-        Mr {{ customerData.fname }} {{ customerData.mname }}
-        {{ customerData.lname }}
+    <div class="mt-10">
+    
+    <div>
+      <div class="mt-10 text-red-500 mt-3 font-bold">
+        <marquee scrollamount="10" className=" ">
+          Presently our bank's interest for personal loan is 16%
+        </marquee>
       </div>
-      <div
-        class="text-gray-600 font-semibold flex items-center text-3xl text-center mx-auto "
-      >
-        <i class="fas fa-wallet mx-2 "></i
-        ><span>{{ customerData.balance }}</span>
-        <i class="fas fa-rupee-sign mx-2 mt-2"></i>
-      </div>
-      <div class=" text-center text-gray-600 font-semibold sm:mt-3">
-        <div class="">
-          <i class="fas fa-sign-out-alt text-4xl "></i> <br /><span
-            class="text-xl"
-            >Log Out</span
+      <h1 class="text-center text-green-600 font semibold text-2xl mt-3">
+        Instant Loan
+      </h1>
+      <form action="" class="w-1/3 mx-auto">
+        <input
+          v-model="data.CRN"
+          type="text"
+          class=" border border-gray-300  h-10 w-full focus:outline-none focus:ring-1 p-4 mt-8 "
+          placeholder="Enter Customer Relationship Number"
+        />
+        <span
+          v-if="submitted && $v.data.CRN.required == false"
+          class="block text-xs text-red-500 text-left ml-3"
+        >
+          CRN is required
+        </span>
+        <span
+          v-if="$v.data.CRN.numeric == false"
+          class="block text-xs text-red-500 text-left ml-3"
+        >
+          CRN should be numeric
+        </span>
+        <select
+          v-model="data.accountNo"
+          type="text"
+          class=" border border-gray-300  h-10 w-full focus:outline-none focus:ring-1 px-3  mt-8 text-gray-500 "
+        >
+          <option value="">please select account number</option>
+          <option
+            :key="account"
+            v-for="account in accountNumberList"
+            :value="account"
+            >{{ account }}</option
           >
+        </select>
+        <span
+          v-if="submitted && $v.data.accountNo.required == false"
+          class="block text-xs text-red-500 text-left ml-3"
+        >
+          Account Number is required
+        </span>
+        <input
+          v-model="data.amount"
+          type="text"
+          class=" border border-gray-300  h-10 w-full focus:outline-none focus:ring-1 p-4 mt-8 "
+          placeholder="Enter Amount"
+        />
+        <span
+          v-if="submitted && $v.data.amount.required == false"
+          class="block text-xs text-red-500 text-left ml-3"
+        >
+          Amount is required
+        </span>
+        <span
+          v-if="$v.data.amount.numeric == false"
+          class="block text-xs text-red-500 text-left ml-3"
+        >
+          Amount should be numeric
+        </span>
+        <span
+          v-if="$v.data.amount.minValue == false"
+          class="block text-xs text-red-500 text-left ml-3"
+        >
+          Loan should be greater than 10000
+        </span>
+        <div class="grid grid-cols-2 gap-6 mb-5">
+          <div>
+            <select
+              v-model="data.duration"
+              type="text"
+              class=" border border-gray-300  h-10 w-full focus:outline-none focus:ring-1 px-3  mt-5 text-gray-500 "
+            >
+              <option value=""> select duration for loan</option>
+              <option :value="1">1 year </option>
+              <option :value="2">2 year </option>
+              <option :value="5">5 year </option>
+              <option :value="10">10 year </option>
+            </select>
+            <span
+              v-if="submitted && $v.data.duration.required == false"
+              class="block text-xs text-red-500 text-left ml-3"
+            >
+              Duration is required
+            </span>
+          </div>
+          <div class="  w-full  mx-auto">
+            <button
+              class="mt-5 w-full  bg-green-400  mx-auto h-10 rounded text-white font-semibold hover:bg-green-600 hover:font-bold"
+              @click.prevent="calculateEMI"
+            >
+              Calculate EMI
+            </button>
+          </div>
         </div>
-      </div>
+        <div id="recaptcha-container"></div>
+        <div class="mt-7">
+          <button
+            class="w-full bg-blue-400 h-9 rounded text-white font-semibold hover:bg-blue-600 hover:font-bold  "
+            @click.prevent="Apply"
+          >
+            Apply For Loan
+          </button>
+        </div>
+      </form>
     </div>
-    <router-view></router-view>
-    <div class="mt-20"><Slider /></div>
-    <div class="mt-20"><Footer /></div>
-  </div>
+    </div>
 </template>
 <script>
 import Service from "./../Services/Service.js";
 import FireBase from "./../firebase";
 import { required, minValue, numeric } from "vuelidate/lib/validators";
-import Slider from "./../components/Corousel.vue";
-import Footer from "./../components/Footer.vue";
+
 export default {
-  components: { Slider, Footer },
+
   data() {
     return {
       data: {

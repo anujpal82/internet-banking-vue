@@ -13,7 +13,8 @@
           <option
             :value="accountNo"
             :key="accountNo"
-            v-for="accountNo in accountNumberList"
+           
+            v-for="accountNo in  accountNumberList"
             >{{ accountNo }}</option
           ></select
         >
@@ -113,10 +114,10 @@ export default {
   created() {
     Service.getCustomer(101).then((res) => {
       this.customerData = res.data[0];
-    });
-    Service.getCustomerByCRN({ CRN: this.customerData.CRN }).then((res) => {
-      this.accountNumberList = res.data.map((item) => {
-        return item.accountNo;
+      Service.getCustomerByCRN({ CRN: this.customerData.CRN }).then((res) => {
+        this.accountNumberList = res.data.map((item) => {
+          return item.accountNo;
+        });
       });
     });
   },

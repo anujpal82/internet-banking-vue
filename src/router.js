@@ -36,7 +36,26 @@ const router = new Router({
     {
       path: "/loan",
       component: () => import("./Pages/Loan"),
+      children: [
+        { path: 'applyforloan', component: () => import('./components/ApplyForLoan') },
+        {
+          path: 'showloans', component: () => import('./components/Showloans.vue')
+        }
+      ]
     },
+    {
+      path: '/services',
+      component: () => import('./Pages/Services'),
+      children: [{
+        path: 'applyforcheckbook', component: () => import('./components/CheckBookRequest')
+      },
+    {
+      path:'applyfordebitcard',component:()=>import('./components/DebitCardRequest')
+    },
+  {
+    path:'applyforfixeddeposit',component:()=>import('./components/FixedDeposit')
+  }]
+    }
   ],
   linkActiveClass: "active",
   linkExactActiveClass: "active",

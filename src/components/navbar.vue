@@ -70,11 +70,32 @@
             class="dropdown-content  absolute top-10 w-64 ml-20 border-2 p-2 text-center bg-green-100 "
             v-show="isLoan"
           >
-            <a class="block text-gray-500 font-semibold" href="#"
-              >Apply For Loan</a
+            <router-link
+              to="/loan/applyforloan"
+              custom
+              v-slot="{ href, navigate }"
             >
+              <a
+                class="text-gray-500 font-semibold"
+                :href="href"
+                @click="navigate"
+                >Apply Loan</a
+              ></router-link
+            >
+
             <hr class="text-black font-bold" />
-            <a class="block text-gray-500 font-semibold" href="#">Show Loans</a>
+            <router-link
+              to="/loan/showloans"
+              custom
+              v-slot="{ href, navigate }"
+            >
+              <a
+                class="text-gray-500 font-semibold"
+                :href="href"
+                @click="navigate"
+                >Show Loans</a
+              ></router-link
+            >
           </div>
         </div>
         <div class="inline relative dropbtn  ">
@@ -89,16 +110,43 @@
             class="dropdown-content  absolute top-10 w-64 ml-48 border-2 p-2 text-center bg-green-100 "
             v-show="isServices"
           >
-            <a class="block text-gray-500 font-semibold mt-2" href="#"
-              >Apply For CheckBook</a
+                 <router-link
+              to="/services/applyforcheckbook"
+              custom
+              v-slot="{ href, navigate }"
+            >
+              <a
+                class="text-gray-500 font-semibold"
+                :href="href"
+                @click="navigate"
+                >Apply For CheckBook</a
+              ></router-link
             >
             <hr class="text-black font-bold" />
-            <a class="block text-gray-500 font-semibold mt-2" href="#"
-              >Apply For Debit Card</a
+                <router-link
+              to="/services/applyfordebitcard"
+              custom
+              v-slot="{ href, navigate }"
+            >
+              <a
+                class="text-gray-500 font-semibold"
+                :href="href"
+                @click="navigate"
+                >Apply For Debit Card</a
+              ></router-link
             >
             <hr class="text-black font-bold mt-2" />
-            <a class="block text-gray-500 font-semibold" href="#"
-              >Apply For Fixed-Deposit</a
+               <router-link
+              to="/services/applyforfixeddeposit"
+              custom
+              v-slot="{ href, navigate }"
+            >
+              <a
+                class="text-gray-500 font-semibold"
+                :href="href"
+                @click="navigate"
+                >Apply For Fixed Deposit</a
+              ></router-link
             >
           </div>
         </div>
